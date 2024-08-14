@@ -13,12 +13,13 @@ class SGDRegressor:
 
         for _ in range(self.epochs):
             for i in range(xtrain.shape[0]):
-                ypred = np.dot(xtrain[i],self.coeff)+self.intercept
+                idx = np.random.randint(0,xtrain.shape[0])
+                ypred = np.dot(xtrain[idx],self.coeff)+self.intercept
 
-                intercept_der = -2*(ytrain[i]-ypred)
+                intercept_der = -2*(ytrain[idx]-ypred)
                 self.intercept-= self.lr*intercept_der
 
-                coeff_der = -2*np.dot(ytrain[i]-ypred,xtrain[i])
+                coeff_der = -2*np.dot(ytrain[idx]-ypred,xtrain[idx])
                 self.coeff -= self.lr*coeff_der
 
 
