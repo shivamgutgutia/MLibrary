@@ -5,7 +5,7 @@ class PolynomialFeatures:
     def __init__(self, degree=2):
         self.degree = degree
 
-    def fit(self, xtrain):
+    def fit_transform(self, xtrain):
         n_features = xtrain.shape[1]
         dp = {}
         for d in range(self.degree + 1):
@@ -25,11 +25,20 @@ class PolynomialFeatures:
                     )
                 combinations.reverse()
                 dp[(features, d)] = np.vstack(combinations)
-        result = np.vstack([dp[(n_features, d)] for d in range(self.degree + 1)]).T
+        self.result = np.vstack([dp[(n_features, d)] for d in range(self.degree + 1)]).T
         m, _ = xtrain.shape
-        _, d = result.shape
+        _, d = self.result.shape
         xtraintrans = np.zeros((m, d))
         for i in range(m):
             for j in range(d):
-                xtraintrans[i, j] = np.prod(xtrain[i, :] ** result[:, j])
+                xtraintrans[i, j] = np.prod(xtrain[i, :] ** self.result[:, j])
         return xtraintrans
+
+    def transform(self,xtest):
+        m, _ = xtest.shape
+        _, d = self.result.shape
+        xtesttrans = np.zeros((m, d))
+        for i in range(m):
+            for j in range(d):
+                xtraintrans[i, j] = np.prod(xtest[i, :] ** self.result[:, j])
+        return xtesttrans
