@@ -34,11 +34,11 @@ class PolynomialFeatures:
                 xtraintrans[i, j] = np.prod(xtrain[i, :] ** self.result[:, j])
         return xtraintrans
 
-    def transform(self,xtest):
+    def transform(self, xtest):
         m, _ = xtest.shape
         _, d = self.result.shape
         xtesttrans = np.zeros((m, d))
         for i in range(m):
             for j in range(d):
-                xtraintrans[i, j] = np.prod(xtest[i, :] ** self.result[:, j])
+                xtesttrans[i, j] = np.prod(xtest[i, :] ** self.result[:, j])
         return xtesttrans
